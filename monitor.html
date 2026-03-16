@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel del Anciano 🦁 La Gran Manada</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink:#FF6B9D; --pink-l:#FFD6E7; --pink-ll:#FFF0F5;
+  --orange:#FF9A3C; --orange-l:#FFF0E0;
+  --green:#4CAF82; --green-l:#D4F5E5;
+  --yellow:#FFD93D; --yellow-l:#FFF8D6;
+  --purple:#9B59B6; --purple-l:#F0E6F8;
+  --blue:#3498DB; --blue-l:#E8F4FD;
+  --bg:#F8F9FC; --card:#FFFFFF;
+  --text:#1A1A2E; --muted:#6B7280;
+  --border:#E5E7EB;
+  --shadow:0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg:0 8px 32px rgba(0,0,0,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ── LOGIN ── */
+#loginScreen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#1A1A2E 0%,#16213E 50%,#0F3460 100%);
+  padding:1.5rem;
+}
+.login-wrap{
+  background:white;border-radius:20px;padding:2rem;
+  max-width:380px;width:100%;box-shadow:var(--shadow-lg);
+}
+.login-brand{text-align:center;margin-bottom:1.5rem}
+.login-brand .icon{font-size:48px}
+.login-brand h1{font-family:'Fredoka One',cursive;font-size:26px;color:var(--pink);margin-top:6px}
+.login-brand p{font-size:13px;color:var(--muted);margin-top:2px}
+.f-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);display:block;margin-bottom:5px}
+.f-input{
+  width:100%;padding:11px 14px;border-radius:10px;
+  border:2px solid var(--border);font-family:'Nunito',sans-serif;
+  font-size:14px;color:var(--text);outline:none;transition:border-color .2s;
+  margin-bottom:12px;
+}
+.f-input:focus{border-color:var(--pink)}
+.btn-primary{
+  width:100%;padding:13px;border-radius:12px;
+  background:linear-gradient(135deg,var(--pink),var(--orange));
+  color:white;font-family:'Fredoka One',cursive;font-size:18px;
+  border:none;cursor:pointer;box-shadow:0 4px 15px rgba(255,107,157,.35);
+  transition:opacity .15s;
+}
+.btn-primary:hover{opacity:.9}
+.login-error{
+  background:#FEE2E2;border:1.5px solid #FCA5A5;border-radius:8px;
+  padding:8px 12px;font-size:12px;font-weight:700;color:#DC2626;
+  margin-top:8px;display:none;text-align:center;
+}
+.monitor-note-login{
+  margin-top:12px;padding:10px 14px;background:var(--yellow-l);
+  border:1.5px solid var(--yellow);border-radius:8px;
+  font-size:12px;font-weight:700;color:#7A5C00;text-align:center;
+}
+
+/* ── SHELL ── */
+#appShell{display:none}
+
+/* SIDEBAR */
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:220px;flex-shrink:0;
+  background:white;border-right:1.5px solid var(--border);
+  display:flex;flex-direction:column;
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.sb-brand{
+  padding:1.25rem 1rem;border-bottom:1.5px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.sb-logo{font-size:28px}
+.sb-title{font-family:'Fredoka One',cursive;font-size:16px;color:var(--pink);line-height:1.1}
+.sb-sub{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+
+.sb-nav{padding:.75rem .5rem;flex:1}
+.sb-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:10px;
+  cursor:pointer;margin-bottom:2px;
+  font-size:13px;font-weight:700;color:var(--muted);
+  transition:all .15s;
+}
+.sb-item:hover{background:var(--pink-ll);color:var(--pink)}
+.sb-item.active{background:var(--pink-ll);color:var(--pink)}
+.sb-item .si-icon{font-size:18px;width:24px;text-align:center;flex-shrink:0}
+.sb-section{
+  font-size:9px;font-weight:900;text-transform:uppercase;
+  letter-spacing:1.2px;color:var(--muted);
+  padding:10px 12px 4px;
+}
+
+.sb-footer{
+  padding:.75rem 1rem;border-top:1.5px solid var(--border);
+  font-size:11px;color:var(--muted);
+}
+.sb-footer strong{display:block;color:var(--text);font-size:12px;margin-bottom:2px}
+.sb-logout{
+  margin-top:6px;padding:6px 10px;border-radius:8px;
+  border:1.5px solid #FCA5A5;background:#FEE2E2;
+  color:#DC2626;font-size:11px;font-weight:800;cursor:pointer;width:100%;
+}
+
+/* MAIN */
+.main{flex:1;padding:1.5rem;overflow-y:auto;min-height:100vh}
+
+/* PAGE HEADER */
+.page-header{margin-bottom:1.5rem}
+.page-title{font-family:'Fredoka One',cursive;font-size:26px;color:var(--text);display:flex;align-items:center;gap:10px}
+.page-sub{font-size:13px;color:var(--muted);margin-top:3px;font-weight:600}
+
+/* PANELS */
+.panel{display:none}.panel.visible{display:block}
+
+/* STAT CARDS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:1.5rem}
+.stat-card{
+  background:var(--card);border-radius:14px;padding:14px 16px;
+  border:1.5px solid var(--border);box-shadow:var(--shadow);
+}
+.sc-icon{font-size:22px;margin-bottom:4px}
+.sc-val{font-family:'Fredoka One',cursive;font-size:28px;line-height:1}
+.sc-lbl{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* TABLE */
+.table-wrap{background:var(--card);border-radius:14px;border:1.5px solid var(--border);overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem}
+.table-head{
+  padding:12px 16px;background:var(--bg);border-bottom:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.table-head h3{font-size:14px;font-weight:800;display:flex;align-items:center;gap:6px}
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{
+  padding:10px 14px;font-size:11px;font-weight:900;text-transform:uppercase;
+  letter-spacing:.6px;color:var(--muted);text-align:left;
+  background:var(--bg);border-bottom:1.5px solid var(--border);
+}
+.tbl td{padding:11px 14px;font-size:13px;font-weight:600;border-bottom:1px solid var(--border)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:#FAFAFA}
+.tbl tr{cursor:pointer;transition:background .1s}
+
+/* RANK BADGE */
+.rank-tag{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;
+}
+.rank-0{background:#F3F4F6;color:#6B7280}
+.rank-1{background:var(--orange-l);color:#B45309}
+.rank-2{background:var(--pink-ll);color:var(--pink)}
+.rank-3{background:var(--purple-l);color:var(--purple)}
+.rank-4{background:var(--yellow-l);color:#92400E}
+
+/* PROGRESS BAR inline */
+.mini-bar-wrap{width:80px;height:6px;background:var(--border);border-radius:3px;overflow:hidden;display:inline-block;vertical-align:middle}
+.mini-bar{height:100%;border-radius:3px;background:var(--green)}
+
+/* ACTION BTNS */
+.btn{
+  padding:8px 16px;border-radius:8px;font-family:'Nunito',sans-serif;
+  font-size:13px;font-weight:800;cursor:pointer;border:1.5px solid var(--border);
+  background:white;color:var(--text);transition:all .15s;
+}
+.btn:hover{background:var(--bg)}
+.btn.pink{background:var(--pink);color:white;border-color:var(--pink);box-shadow:0 3px 10px rgba(255,107,157,.3)}
+.btn.pink:hover{opacity:.9}
+.btn.green{background:var(--green);color:white;border-color:var(--green)}
+.btn.sm{padding:5px 12px;font-size:11px}
+
+/* MODAL */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.5);
+  z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem;
+}
+.modal-bg.open{display:flex}
+.modal{
+  background:white;border-radius:20px;padding:1.5rem;
+  max-width:520px;width:100%;max-height:90vh;overflow-y:auto;
+  box-shadow:var(--shadow-lg);animation:slideUp .25s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes slideUp{0%{transform:translateY(30px);opacity:0}100%{transform:translateY(0);opacity:1}}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.modal-title{font-family:'Fredoka One',cursive;font-size:20px;color:var(--text)}
+.modal-close{font-size:22px;cursor:pointer;color:var(--muted);background:none;border:none;padding:2px 6px}
+
+/* OBJECTIVE ROWS IN MODAL */
+.obj-modal-row{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);
+  background:white;margin-bottom:6px;cursor:pointer;transition:all .15s;
+}
+.obj-modal-row:hover{border-color:var(--green);background:var(--green-l)}
+.obj-modal-row.done{background:var(--green-l);border-color:var(--green)}
+.obj-modal-row.done.tec{background:var(--blue-l);border-color:var(--blue)}
+.obj-modal-row.done.act{background:var(--yellow-l);border-color:var(--yellow)}
+.obj-modal-check{
+  width:22px;height:22px;border-radius:50%;border:2px solid var(--border);
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;
+  transition:all .2s;background:white;margin-top:1px;
+}
+.obj-modal-row.done .obj-modal-check{background:var(--green);border-color:var(--green);color:white}
+.obj-modal-row.done.tec .obj-modal-check{background:var(--blue);border-color:var(--blue);color:white}
+.obj-modal-row.done.act .obj-modal-check{background:var(--orange);border-color:var(--orange);color:white}
+.obj-modal-text{font-size:12px;font-weight:700;line-height:1.5;flex:1}
+.obj-modal-rug{font-size:11px;font-weight:800;color:var(--muted);flex-shrink:0;margin-top:2px}
+
+/* DIM HEADER */
+.dim-header{
+  display:flex;align-items:center;gap:8px;margin:10px 0 6px;
+  padding-bottom:5px;border-bottom:1.5px solid var(--border);
+}
+.dim-pill{
+  font-size:10px;font-weight:800;padding:2px 9px;border-radius:20px;
+  text-transform:uppercase;letter-spacing:.5px;
+}
+.dim-pill.tec{background:#E8F0FF;color:#1D4ED8}
+.dim-pill.soc{background:var(--green-l);color:#065F46}
+.dim-pill.act{background:var(--yellow-l);color:#92400E}
+
+/* FORM */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.form-group{margin-bottom:12px}
+.form-group label{display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:5px}
+.form-group input,.form-group select{
+  width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);
+  font-family:'Nunito',sans-serif;font-size:14px;color:var(--text);outline:none;
+  transition:border-color .2s;background:white;
+}
+.form-group input:focus,.form-group select:focus{border-color:var(--pink)}
+
+/* ATTENDANCE */
+.attendance-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1rem}
+.att-card{
+  padding:10px 14px;border-radius:12px;border:1.5px solid var(--border);
+  background:white;display:flex;align-items:center;gap:10px;cursor:pointer;
+  transition:all .15s;min-width:160px;
+}
+.att-card:hover{border-color:var(--green)}
+.att-card.present{background:var(--green-l);border-color:var(--green)}
+.att-card.absent{background:#FEE2E2;border-color:#FCA5A5}
+.att-icon{font-size:22px}
+.att-name{font-size:13px;font-weight:800}
+.att-status{font-size:11px;font-weight:700;margin-top:1px}
+.att-card.present .att-status{color:var(--green)}
+.att-card.absent .att-status{color:#DC2626}
+
+/* CONTENT HUB */
+.content-section{margin-bottom:1.5rem}
+.content-section-title{
+  font-family:'Fredoka One',cursive;font-size:18px;color:var(--text);
+  margin-bottom:10px;display:flex;align-items:center;gap:8px;
+}
+.content-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.content-card{
+  background:white;border-radius:14px;border:1.5px solid var(--border);
+  overflow:hidden;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s;cursor:pointer;
+}
+.content-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.content-thumb{
+  width:100%;height:140px;object-fit:cover;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;font-size:40px;
+}
+.content-body{padding:12px 14px}
+.content-tag{
+  font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.8px;
+  padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:6px;
+}
+.tag-video{background:var(--pink-ll);color:var(--pink)}
+.tag-articulo{background:var(--blue-l);color:var(--blue)}
+.tag-historia{background:var(--yellow-l);color:#92400E}
+.tag-ejercicio{background:var(--green-l);color:#065F46}
+.content-title{font-size:14px;font-weight:800;line-height:1.3;margin-bottom:4px}
+.content-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.content-link{
+  display:inline-flex;align-items:center;gap:4px;margin-top:8px;
+  font-size:12px;font-weight:800;color:var(--pink);text-decoration:none;
+}
+
+/* ADD CONTENT FORM */
+.add-content-form{
+  background:var(--pink-ll);border:1.5px dashed var(--pink-l);
+  border-radius:14px;padding:14px 16px;margin-bottom:1rem;
+}
+.add-content-form .form-row{grid-template-columns:1fr 1fr 1fr}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:20px;right:20px;
+  background:var(--text);color:white;
+  padding:10px 18px;border-radius:12px;
+  font-size:13px;font-weight:700;
+  opacity:0;transform:translateY(10px);transition:all .3s;
+  z-index:500;pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* LOADING */
+#loadingScreen{
+  position:fixed;inset:0;background:linear-gradient(135deg,#1A1A2E,#0F3460);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;z-index:999;
+}
+#loadingScreen.hidden{display:none}
+.loading-anim{font-size:50px;animation:bounce .7s ease-in-out infinite alternate}
+@keyframes bounce{to{transform:translateY(-12px)}}
+.loading-txt{font-family:'Fredoka One',cursive;font-size:18px;color:white}
+
+/* BLOQUE TABS */
+.bloque-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.bloque-tab{
+  padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);
+  background:white;font-size:12px;font-weight:800;color:var(--muted);cursor:pointer;transition:all .15s;
+}
+.bloque-tab.active{background:var(--pink);border-color:var(--pink);color:white}
+
+@media(max-width:768px){
+  .sidebar{display:none}
+  .main{padding:1rem}
+  .form-row{grid-template-columns:1fr}
+  .add-content-form .form-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loadingScreen">
+  <div class="loading-anim">🦁</div>
+  <div class="loading-txt">Cargando el Anciano...</div>
+</div>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-wrap">
+    <div class="login-brand">
+      <div class="icon">🦁</div>
+      <h1>Panel del Anciano</h1>
+      <p>La Gran Manada — Monitor</p>
+    </div>
+    <label class="f-label">Correo del monitor</label>
+    <input class="f-input" type="email" id="lEmail" placeholder="monitor@correo.com" />
+    <label class="f-label">Contraseña</label>
+    <input class="f-input" type="password" id="lPass" placeholder="••••••••" />
+    <button class="btn-primary" onclick="doLogin()">Entrar al panel 🐾</button>
+    <div class="login-error" id="lErr">Correo o contraseña incorrectos</div>
+    <div class="monitor-note-login">⚠️ Este panel es solo para el Anciano de la Manada</div>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="appShell">
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sb-brand">
+        <div class="sb-logo">🦁</div>
+        <div>
+          <div class="sb-title">La Gran Manada</div>
+          <div class="sb-sub">Panel Monitor</div>
+        </div>
+      </div>
+      <div class="sb-nav">
+        <div class="sb-section">Principal</div>
+        <div class="sb-item active" onclick="showPanel('resumen')">
+          <span class="si-icon">📊</span> Resumen
+        </div>
+        <div class="sb-item" onclick="showPanel('manada')">
+          <span class="si-icon">🐾</span> La Manada
+        </div>
+        <div class="sb-item" onclick="showPanel('asistencia')">
+          <span class="si-icon">✅</span> Asistencia
+        </div>
+        <div class="sb-section">Gestión</div>
+        <div class="sb-item" onclick="showPanel('crías')">
+          <span class="si-icon">➕</span> Crear Crías
+        </div>
+        <div class="sb-section">Contenido</div>
+        <div class="sb-item" onclick="showPanel('contenido')">
+          <span class="si-icon">📚</span> Material
+        </div>
+      </div>
+      <div class="sb-footer">
+        <strong id="monitorEmail">—</strong>
+        Anciano de la Manada
+        <button class="sb-logout" onclick="doLogout()">Cerrar sesión</button>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- ══ RESUMEN ══ -->
+      <div class="panel visible" id="panel-resumen">
+        <div class="page-header">
+          <div class="page-title">📊 Resumen de la Temporada</div>
+          <div class="page-sub">Vista general de todas las Crías</div>
+        </div>
+        <div class="stats-row" id="statsRow"></div>
+        <div class="table-wrap">
+          <div class="table-head">
+            <h3>🐾 Estado de la Manada</h3>
+            <button class="btn sm" onclick="loadParticipants()">↻ Actualizar</button>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Cría</th>
+                  <th>Rango</th>
+                  <th>Rugidos</th>
+                  <th>Progreso</th>
+                  <th>Marcas</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="participantsTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ MANADA ══ -->
+      <div class="panel" id="panel-manada">
+        <div class="page-header">
+          <div class="page-title">🐾 La Manada</div>
+          <div class="page-sub">Objetivos de cada Cría por bloque</div>
+        </div>
+        <div class="bloque-tabs" id="manBloqueTabs"></div>
+        <div id="manadaGrid"></div>
+      </div>
+
+      <!-- ══ ASISTENCIA ══ -->
+      <div class="panel" id="panel-asistencia">
+        <div class="page-header">
+          <div class="page-title">✅ Asistencia</div>
+          <div class="page-sub">Registro por sesión / ritual</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem;flex-wrap:wrap">
+          <div class="form-group" style="margin:0">
+            <input type="date" id="attDate" class="f-input" style="margin:0;width:auto;padding:8px 12px;font-size:13px" />
+          </div>
+          <div class="form-group" style="margin:0">
+            <input type="text" id="attSession" class="f-input" placeholder="Nombre del Ritual (ej: Ritual 3)" style="margin:0;width:220px;padding:8px 12px;font-size:13px"/>
+          </div>
+          <button class="btn pink" onclick="saveAttendance()">Guardar asistencia</button>
+        </div>
+        <div class="attendance-grid" id="attendanceGrid"></div>
+        <div class="table-wrap" style="margin-top:1rem">
+          <div class="table-head"><h3>📅 Historial de asistencia</h3></div>
+          <div style="overflow-x:auto">
+            <table class="tbl">
+              <thead><tr><th>Fecha</th><th>Ritual</th><th>Presentes</th><th>Ausentes</th></tr></thead>
+              <tbody id="attHistory"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ CREAR CRÍAS ══ -->
+      <div class="panel" id="panel-crías">
+        <div class="page-header">
+          <div class="page-title">➕ Crear y Gestionar Crías</div>
+          <div class="page-sub">Crea cuentas para las participantes del taller</div>
+        </div>
+        <div style="background:var(--yellow-l);border:1.5px solid var(--yellow);border-radius:12px;padding:12px 16px;margin-bottom:1rem;font-size:13px;font-weight:700;color:#7A5C00;line-height:1.6">
+          ⚠️ <strong>Importante:</strong> Para crear cuentas necesitas usar Firebase Authentication directamente desde
+          <a href="https://console.firebase.google.com" target="_blank" style="color:var(--pink)">console.firebase.google.com</a>
+          → Authentication → Users → Añadir usuario. Aquí puedes configurar el perfil de cada cría una vez creada.
+        </div>
+        <div style="background:white;border-radius:14px;border:1.5px solid var(--border);padding:1.25rem;box-shadow:var(--shadow)">
+          <div style="font-family:'Fredoka One',cursive;font-size:18px;margin-bottom:1rem">✏️ Editar perfil de una Cría</div>
+          <div class="form-group">
+            <label>Seleccionar Cría</label>
+            <select id="editUidSelect" class="f-input" style="margin:0" onchange="loadEditProfile()">
+              <option value="">— Seleccionar —</option>
+            </select>
+          </div>
+          <div id="editProfileForm" style="display:none">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nombre visible (apodo)</label>
+                <input type="text" id="editName" class="f-input" style="margin:0" placeholder="Sofía" />
+              </div>
+              <div class="form-group">
+                <label>Rugidos iniciales</label>
+                <input type="number" id="editRugidos" class="f-input" style="margin:0" placeholder="0" min="0" max="480"/>
+              </div>
+            </div>
+            <button class="btn pink" onclick="saveProfileEdit()">Guardar cambios</button>
+          </div>
+        </div>
+
+        <div style="margin-top:1.25rem;background:white;border-radius:14px;border:1.5px solid var(--border);padding:1.25rem;box-shadow:var(--shadow)">
+          <div style="font-family:'Fredoka One',cursive;font-size:18px;margin-bottom:4px">📋 Pasos para crear una cuenta</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:1rem">Sigue estos pasos en Firebase Console:</div>
+          <ol style="display:flex;flex-direction:column;gap:8px;padding-left:1.25rem">
+            <li style="font-size:13px;font-weight:700;line-height:1.6">Ve a <a href="https://console.firebase.google.com" target="_blank" style="color:var(--pink)">console.firebase.google.com</a> → tu proyecto</li>
+            <li style="font-size:13px;font-weight:700;line-height:1.6">Authentication → Users → <strong>"Añadir usuario"</strong></li>
+            <li style="font-size:13px;font-weight:700;line-height:1.6">Correo: usa un formato simple como <em>sofia@grananmanada.cl</em></li>
+            <li style="font-size:13px;font-weight:700;line-height:1.6">Contraseña: algo fácil de recordar para la niña (ej: manada + número)</li>
+            <li style="font-size:13px;font-weight:700;line-height:1.6">La niña entra con esas credenciales en <strong>index.html</strong></li>
+            <li style="font-size:13px;font-weight:700;line-height:1.6">Vuelve aquí a editar su nombre visible en el formulario de arriba</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- ══ CONTENIDO ══ -->
+      <div class="panel" id="panel-contenido">
+        <div class="page-header">
+          <div class="page-title">📚 Material de la Manada</div>
+          <div class="page-sub">Videos, artículos, casos exitosos y ejercicios</div>
+        </div>
+
+        <!-- ADD FORM -->
+        <div class="add-content-form">
+          <div style="font-family:'Fredoka One',cursive;font-size:16px;margin-bottom:10px;color:var(--pink)">➕ Agregar nuevo material</div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0">
+              <label>Tipo</label>
+              <select id="cType" class="f-input" style="margin:0">
+                <option value="video">📹 Video YouTube</option>
+                <option value="articulo">📰 Artículo</option>
+                <option value="historia">⭐ Caso exitoso</option>
+                <option value="ejercicio">⚽ Ejercicio</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>Título</label>
+              <input type="text" id="cTitle" class="f-input" style="margin:0" placeholder="Título del material"/>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>URL o link</label>
+              <input type="url" id="cUrl" class="f-input" style="margin:0" placeholder="https://youtube.com/..."/>
+            </div>
+          </div>
+          <div class="form-group" style="margin:4px 0 8px">
+            <label>Descripción breve</label>
+            <input type="text" id="cDesc" class="f-input" style="margin:0" placeholder="¿De qué trata este material?"/>
+          </div>
+          <button class="btn pink" onclick="addContent()">Publicar material</button>
+        </div>
+
+        <!-- CONTENT GRID -->
+        <div id="contentGrid"></div>
+      </div>
+
+    </div><!-- /main -->
+  </div><!-- /layout -->
+</div><!-- /appShell -->
+
+<!-- MODAL: Objetivos de una Cría -->
+<div class="modal-bg" id="objModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Objetivos</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="bloque-tabs" id="modalBloqueTabs"></div>
+    <div id="modalObjContent"></div>
+    <div style="margin-top:1rem;display:flex;justify-content:flex-end">
+      <button class="btn pink" onclick="closeModal()">Listo ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, updateDoc, addDoc, query, orderBy }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDS2uCxJkPHrLe9AiN-hkcVMNLZ7u5xJCA",
+  authDomain: "la-gran-manada.firebaseapp.com",
+  projectId: "la-gran-manada",
+  storageBucket: "la-gran-manada.firebasestorage.app",
+  messagingSenderId: "973285518131",
+  appId: "1:973285518131:web:02fc08f34df9584102ec46"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const auth  = getAuth(fbApp);
+const db    = getFirestore(fbApp);
+
+// ── DATA ─────────────────────────────────────────────────────
+const RANKS = [
+  {name:'Cría de la Sabana',     icon:'🐾', req:0},
+  {name:'Exploradora',           icon:'🦊', req:80},
+  {name:'Cazadora en Formación', icon:'🐆', req:200},
+  {name:'Guardiana',             icon:'🦁', req:350},
+  {name:'Leyenda de la Manada',  icon:'🦅', req:480},
+];
+
+const BADGES = [
+  {id:'guepardo',name:'Patas del Guepardo',icon:'🐆'},
+  {id:'aguila',  name:'Visión del Águila', icon:'🦅'},
+  {id:'colmillo',name:'Colmillo Preciso',  icon:'🐊'},
+  {id:'leon',    name:'Rugido del León',   icon:'🦁'},
+  {id:'lobo',    name:'Lomo del Lobo',     icon:'🐺'},
+  {id:'rino',    name:'Corazón de Rinoceronte',icon:'🦏'},
+];
+
+const BLOQUES = [
+  {id:'b1',icon:'🌅',name:'El Despertar',objs:[
+    {dim:'tec',text:'Control balón pie derecho 5 toques',rug:10},
+    {dim:'tec',text:'Control balón pie izquierdo 5 toques',rug:10},
+    {dim:'tec',text:'3 tipos de conducción',rug:15},
+    {dim:'tec',text:'Circuito de coordinación',rug:15},
+    {dim:'tec',text:'Postura básica de espera',rug:10},
+    {dim:'soc',text:'Se presenta a compañera nueva',rug:5},
+    {dim:'soc',text:'Participa en reflexión de cierre',rug:5},
+    {dim:'soc',text:'Anima a una compañera',rug:5},
+    {dim:'act',text:'Intenta aunque no complete',rug:8},
+    {dim:'act',text:'Vuelve a intentar tras error',rug:7},
+  ]},
+  {id:'b2',icon:'🌿',name:'La Manada',objs:[
+    {dim:'tec',text:'10 pases seguidos',rug:12},
+    {dim:'tec',text:'Recibe orientando cuerpo',rug:12},
+    {dim:'tec',text:'Secuencia 3 pases en mov.',rug:15},
+    {dim:'tec',text:'Señales verbales en 3 acciones',rug:10},
+    {dim:'soc',text:'Lidera jugada colectiva',rug:10},
+    {dim:'soc',text:'Explica Cacería a compañera',rug:8},
+    {dim:'soc',text:'Celebra gol colectivamente',rug:5},
+    {dim:'soc',text:'Resuelve conflicto pequeño',rug:10},
+    {dim:'act',text:'Concentración fase táctica',rug:8},
+  ]},
+  {id:'b3',icon:'⚡',name:'La Cacería',objs:[
+    {dim:'tec',text:'Remate desde 3 posiciones',rug:15},
+    {dim:'tec',text:'Supera defensora 2 veces',rug:15},
+    {dim:'tec',text:'Balón bajo presión 4 seg.',rug:12},
+    {dim:'tec',text:'Regate definido con eficacia',rug:12},
+    {dim:'soc',text:'Se recupera de error con actitud',rug:10},
+    {dim:'soc',text:'Motiva Manada en momento difícil',rug:10},
+    {dim:'act',text:'Completa Cacería fallida antes',rug:15},
+    {dim:'act',text:'Aplica corrección al instante',rug:8},
+    {dim:'act',text:'Máximo esfuerzo últimos 10 min',rug:10},
+  ]},
+  {id:'b4',icon:'🏆',name:'Rugido Final',objs:[
+    {dim:'tec',text:'Ocupa espacios libres x3',rug:12},
+    {dim:'tec',text:'Decisiones tácticas con criterio',rug:15},
+    {dim:'tec',text:'Demuestra habilidad dominada',rug:15},
+    {dim:'soc',text:'Lidera calentamiento ritual',rug:15},
+    {dim:'soc',text:'Comparte aprendizaje temporada',rug:10},
+    {dim:'soc',text:'Prepara espacio ritual',rug:5},
+    {dim:'act',text:'Revisa cartola macro con Anciano',rug:10},
+    {dim:'act',text:'Nombra momento de perseverancia',rug:10},
+  ]},
+];
+
+// Default content
+const DEFAULT_CONTENT = [
+  {type:'video',  title:'Las mejores jugadoras de fútbol femenino 2024', desc:'Compilación de jugadas increíbles de referentes mundiales.', url:'https://www.youtube.com/results?search_query=mejores+jugadoras+futbol+femenino+2024', emoji:'⚽'},
+  {type:'historia',title:'Alexia Putellas: de niña a Balón de Oro',     desc:'La historia de superación de la mejor jugadora del mundo.', url:'https://www.google.com/search?q=alexia+putellas+historia', emoji:'⭐'},
+  {type:'articulo',title:'Por qué el fútbol femenino crece en Chile',   desc:'Artículo sobre el auge del fútbol femenino en Latinoamérica.', url:'https://www.google.com/search?q=futbol+femenino+chile+crecimiento', emoji:'📰'},
+  {type:'ejercicio',title:'Ejercicios de control de balón para niñas', desc:'Rutina de 10 ejercicios progresivos para dominio del balón.', url:'https://www.youtube.com/results?search_query=ejercicios+control+balon+ninas+futbol', emoji:'🎯'},
+];
+
+// ── STATE ─────────────────────────────────────────────────────
+let currentUser  = null;
+let participants = {};  // uid -> data
+let attendance   = {};  // uid -> present|absent|null
+let modalUid     = null;
+let modalBloque  = 'b1';
+let manBloque    = 'b1';
+let contentItems = [];
+
+// ── HELPERS ───────────────────────────────────────────────────
+function getRank(rugidos) {
+  let r = RANKS[0];
+  RANKS.forEach(x => { if(rugidos >= x.req) r = x; });
+  return r;
+}
+function getRankIdx(rugidos) {
+  let idx = 0;
+  RANKS.forEach((x,i) => { if(rugidos >= x.req) idx = i; });
+  return idx;
+}
+function calcRugidos(p) {
+  let total = 0;
+  BLOQUES.forEach(b => {
+    b.objs.forEach((_,i) => { if(p.objs && p.objs[b.id] && p.objs[b.id][i]) total += b.objs[i].rug; });
+  });
+  return total;
+}
+function calcPct(p) {
+  let done=0, total=0;
+  BLOQUES.forEach(b => { total+=b.objs.length; Object.values(p.objs?.[b.id]||{}).forEach(v=>{if(v)done++;}); });
+  return total ? Math.round(done/total*100) : 0;
+}
+function badgeCount(p) { return Object.values(p.badges||{}).filter(Boolean).length; }
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ── LOAD PARTICIPANTS ─────────────────────────────────────────
+window.loadParticipants = async function() {
+  const snap = await getDocs(collection(db,'participantes'));
+  participants = {};
+  snap.forEach(d => { participants[d.id] = d.data(); });
+  renderResumen();
+  renderManada();
+  renderAttendance();
+  populateEditSelect();
+};
+
+// ── LOAD CONTENT ──────────────────────────────────────────────
+async function loadContent() {
+  const snap = await getDocs(collection(db,'contenido'));
+  contentItems = [];
+  snap.forEach(d => contentItems.push({id:d.id,...d.data()}));
+  if (!contentItems.length) {
+    // seed default
+    for (const item of DEFAULT_CONTENT) {
+      const ref = await addDoc(collection(db,'contenido'), item);
+      contentItems.push({id:ref.id,...item});
+    }
+  }
+  renderContent();
+}
+
+// ── RENDER RESUMEN ────────────────────────────────────────────
+function renderResumen() {
+  const uids = Object.keys(participants);
+  const total = uids.length;
+  const totalRug = uids.reduce((s,uid)=>s+calcRugidos(participants[uid]),0);
+  const avgPct = total ? Math.round(uids.reduce((s,uid)=>s+calcPct(participants[uid]),0)/total) : 0;
+  const totalBadges = uids.reduce((s,uid)=>s+badgeCount(participants[uid]),0);
+
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat-card"><div class="sc-icon">🐾</div><div class="sc-val">${total}</div><div class="sc-lbl">Crías</div></div>
+    <div class="stat-card"><div class="sc-icon">🔊</div><div class="sc-val">${totalRug}</div><div class="sc-lbl">Rugidos totales</div></div>
+    <div class="stat-card"><div class="sc-icon">📈</div><div class="sc-val">${avgPct}%</div><div class="sc-lbl">Progreso promedio</div></div>
+    <div class="stat-card"><div class="sc-icon">🏅</div><div class="sc-val">${totalBadges}</div><div class="sc-lbl">Marcas ganadas</div></div>
+  `;
+
+  const tbody = document.getElementById('participantsTbody');
+  if (!uids.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:2rem">No hay crías registradas aún</td></tr>';
+    return;
+  }
+  tbody.innerHTML = uids.map(uid => {
+    const p = participants[uid];
+    const rug = calcRugidos(p);
+    const pct = calcPct(p);
+    const rank = getRank(rug);
+    const rankIdx = getRankIdx(rug);
+    const bc = badgeCount(p);
+    return `<tr onclick="openObjModal('${uid}')">
+      <td><strong>${p.displayName || p.email?.split('@')[0] || '—'}</strong><div style="font-size:11px;color:var(--muted)">${p.email||''}</div></td>
+      <td><span class="rank-tag rank-${rankIdx}">${rank.icon} ${rank.name}</span></td>
+      <td><strong>${rug}</strong> <span style="color:var(--muted);font-size:11px">/ 480</span></td>
+      <td>
+        <div class="mini-bar-wrap"><div class="mini-bar" style="width:${pct}%"></div></div>
+        <span style="font-size:11px;font-weight:800;color:var(--muted);margin-left:6px">${pct}%</span>
+      </td>
+      <td>${BADGES.map(b=>`<span style="font-size:14px;opacity:${p.badges&&p.badges[b.id]?1:0.2}">${b.icon}</span>`).join('')}</td>
+      <td><button class="btn sm pink" onclick="event.stopPropagation();openObjModal('${uid}')">Ver objetivos</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ── RENDER MANADA (objectives overview) ──────────────────────
+function renderManada() {
+  const tabs = document.getElementById('manBloqueTabs');
+  tabs.innerHTML = BLOQUES.map(b =>
+    `<div class="bloque-tab ${b.id===manBloque?'active':''}" onclick="setManBloque('${b.id}')">${b.icon} ${b.name}</div>`
+  ).join('');
+
+  const bloque = BLOQUES.find(x=>x.id===manBloque);
+  const uids = Object.keys(participants);
+  const grid = document.getElementById('manadaGrid');
+  if (!uids.length) { grid.innerHTML='<p style="color:var(--muted);font-size:14px">No hay crías registradas.</p>'; return; }
+
+  const dims = {tec:'Técnico',soc:'Socio-recreativo',act:'Esfuerzo'};
+  const dimOrder=['tec','soc','act'];
+
+  grid.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">` +
+    uids.map(uid => {
+      const p = participants[uid];
+      const objs = p.objs?.[bloque.id] || {};
+      const done = Object.values(objs).filter(Boolean).length;
+      const pct = Math.round(done/bloque.objs.length*100);
+      return `<div style="background:white;border-radius:14px;border:1.5px solid var(--border);padding:14px;box-shadow:var(--shadow)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <div style="font-size:22px">${getRank(calcRugidos(p)).icon}</div>
+          <div>
+            <div style="font-weight:800;font-size:14px">${p.displayName||p.email?.split('@')[0]||'—'}</div>
+            <div style="font-size:11px;color:var(--muted)">${done}/${bloque.objs.length} objetivos · ${pct}%</div>
+          </div>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:10px">
+          <div style="width:${pct}%;height:100%;background:var(--green);border-radius:3px;transition:width .4s"></div>
+        </div>
+        ${bloque.objs.map((o,i)=>`
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+            <span style="font-size:13px">${objs[i]?'✅':'⬜'}</span>
+            <span style="font-size:11px;color:${objs[i]?'var(--green)':'var(--muted)'};font-weight:${objs[i]?800:600};line-height:1.3">${o.text}</span>
+          </div>`).join('')}
+        <button class="btn sm pink" style="margin-top:8px;width:100%" onclick="openObjModal('${uid}')">Marcar objetivos</button>
+      </div>`;
+    }).join('') + '</div>';
+}
+
+window.setManBloque = function(id) { manBloque=id; renderManada(); };
+
+// ── MODAL OBJETIVOS ───────────────────────────────────────────
+window.openObjModal = function(uid) {
+  modalUid = uid;
+  modalBloque = 'b1';
+  const p = participants[uid];
+  document.getElementById('modalTitle').textContent =
+    `${getRank(calcRugidos(p)).icon} ${p.displayName||p.email?.split('@')[0]} — Objetivos`;
+  document.getElementById('objModal').classList.add('open');
+  renderModalObjs();
+};
+
+window.closeModal = function() {
+  document.getElementById('objModal').classList.remove('open');
+  modalUid = null;
+};
+
+function renderModalObjs() {
+  const bloque = BLOQUES.find(x=>x.id===modalBloque);
+  const p = participants[modalUid];
+  const objs = p.objs?.[bloque.id] || {};
+  const dims={tec:'Técnico',soc:'Socio-recreativo',act:'Esfuerzo'};
+  const dimOrder=['tec','soc','act'];
+
+  document.getElementById('modalBloqueTabs').innerHTML = BLOQUES.map(b=>
+    `<div class="bloque-tab ${b.id===modalBloque?'active':''}" onclick="setModalBloque('${b.id}')">${b.icon} ${b.name}</div>`
+  ).join('');
+
+  let html='';
+  dimOrder.forEach(dim=>{
+    const items=bloque.objs.map((o,i)=>({...o,i})).filter(o=>o.dim===dim);
+    if(!items.length)return;
+    const done=items.filter(o=>objs[o.i]).length;
+    html+=`<div class="dim-header"><span class="dim-pill ${dim}">${dims[dim]}</span><span style="font-size:11px;font-weight:800;color:var(--muted);margin-left:auto">${done}/${items.length}</span></div>`;
+    items.forEach(o=>{
+      const isDone=!!objs[o.i];
+      html+=`<div class="obj-modal-row ${dim} ${isDone?'done':''}" onclick="toggleModalObj(${o.i},'${dim}')">
+        <div class="obj-modal-check">${isDone?'✓':''}</div>
+        <span class="obj-modal-text">${o.text}</span>
+        <span class="obj-modal-rug">+${o.rug} 🔊</span>
+      </div>`;
+    });
+  });
+  document.getElementById('modalObjContent').innerHTML = html;
+}
+
+window.setModalBloque = function(id){ modalBloque=id; renderModalObjs(); };
+
+window.toggleModalObj = async function(idx, dim) {
+  if (!modalUid) return;
+  const p = participants[modalUid];
+  if (!p.objs) p.objs = {};
+  if (!p.objs[modalBloque]) p.objs[modalBloque] = {};
+  const prev = !!p.objs[modalBloque][idx];
+  p.objs[modalBloque][idx] = !prev;
+
+  const rug = BLOQUES.find(x=>x.id===modalBloque).objs[idx].rug;
+  if (!prev) showToast(`+${rug} Rugidos para ${p.displayName||'la cría'} 🔊`);
+
+  // Save to Firestore
+  const ref = doc(db,'participantes',modalUid);
+  await updateDoc(ref, { [`objs.${modalBloque}.${idx}`]: p.objs[modalBloque][idx] });
+
+  participants[modalUid] = p;
+  renderModalObjs();
+  renderResumen();
+  renderManada();
+};
+
+// ── ATTENDANCE ────────────────────────────────────────────────
+function renderAttendance() {
+  const uids = Object.keys(participants);
+  // set today's date
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('attDate').value = today;
+
+  const grid = document.getElementById('attendanceGrid');
+  if (!uids.length) { grid.innerHTML='<p style="color:var(--muted)">No hay crías registradas.</p>'; return; }
+  grid.innerHTML = uids.map(uid=>{
+    const p=participants[uid];
+    const status=attendance[uid]||null;
+    return `<div class="att-card ${status==='present'?'present':status==='absent'?'absent':''}" id="att_${uid}" onclick="toggleAtt('${uid}')">
+      <span class="att-icon">${getRank(calcRugidos(p)).icon}</span>
+      <div>
+        <div class="att-name">${p.displayName||p.email?.split('@')[0]||'—'}</div>
+        <div class="att-status">${status==='present'?'✅ Presente':status==='absent'?'❌ Ausente':'— Sin marcar'}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.toggleAtt = function(uid) {
+  const curr=attendance[uid]||null;
+  attendance[uid] = curr===null?'present':curr==='present'?'absent':null;
+  renderAttendance();
+};
+
+window.saveAttendance = async function() {
+  const date=document.getElementById('attDate').value;
+  const session=document.getElementById('attSession').value||'Ritual';
+  if(!date){showToast('Selecciona una fecha');return;}
+  const present=Object.keys(attendance).filter(u=>attendance[u]==='present');
+  const absent=Object.keys(attendance).filter(u=>attendance[u]==='absent');
+  await addDoc(collection(db,'asistencia'),{date,session,present,absent,createdAt:Date.now()});
+  showToast('✅ Asistencia guardada');
+  loadAttHistory();
+};
+
+async function loadAttHistory() {
+  try {
+    const snap=await getDocs(collection(db,'asistencia'));
+    const rows=[];
+    snap.forEach(d=>rows.push(d.data()));
+    rows.sort((a,b)=>b.createdAt-a.createdAt);
+    document.getElementById('attHistory').innerHTML=rows.slice(0,10).map(r=>`
+      <tr>
+        <td>${r.date}</td>
+        <td>${r.session}</td>
+        <td style="color:var(--green);font-weight:800">${r.present?.length||0}</td>
+        <td style="color:#DC2626;font-weight:800">${r.absent?.length||0}</td>
+      </tr>`).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:1rem">Sin registros aún</td></tr>';
+  } catch(e){}
+}
+
+// ── EDIT PROFILE ──────────────────────────────────────────────
+function populateEditSelect() {
+  const sel = document.getElementById('editUidSelect');
+  sel.innerHTML = '<option value="">— Seleccionar —</option>' +
+    Object.entries(participants).map(([uid,p])=>
+      `<option value="${uid}">${p.displayName||p.email||uid}</option>`).join('');
+}
+
+window.loadEditProfile = function() {
+  const uid=document.getElementById('editUidSelect').value;
+  if(!uid){document.getElementById('editProfileForm').style.display='none';return;}
+  const p=participants[uid];
+  document.getElementById('editName').value=p.displayName||'';
+  document.getElementById('editRugidos').value=calcRugidos(p);
+  document.getElementById('editProfileForm').style.display='block';
+};
+
+window.saveProfileEdit = async function() {
+  const uid=document.getElementById('editUidSelect').value;
+  if(!uid)return;
+  const name=document.getElementById('editName').value.trim();
+  const rugAdj=parseInt(document.getElementById('editRugidos').value)||0;
+  const ref=doc(db,'participantes',uid);
+  await updateDoc(ref,{displayName:name});
+  if(participants[uid]) participants[uid].displayName=name;
+  showToast('✅ Perfil actualizado');
+  renderResumen();
+  populateEditSelect();
+};
+
+// ── CONTENT ───────────────────────────────────────────────────
+window.addContent = async function() {
+  const type=document.getElementById('cType').value;
+  const title=document.getElementById('cTitle').value.trim();
+  const url=document.getElementById('cUrl').value.trim();
+  const desc=document.getElementById('cDesc').value.trim();
+  if(!title||!url){showToast('Completa título y URL');return;}
+  const emojis={video:'📹',articulo:'📰',historia:'⭐',ejercicio:'⚽'};
+  const item={type,title,url,desc,emoji:emojis[type]||'📌',createdAt:Date.now()};
+  const ref=await addDoc(collection(db,'contenido'),item);
+  contentItems.unshift({id:ref.id,...item});
+  document.getElementById('cTitle').value='';
+  document.getElementById('cUrl').value='';
+  document.getElementById('cDesc').value='';
+  showToast('✅ Material publicado');
+  renderContent();
+};
+
+function renderContent() {
+  const tagLabels={video:'Video',articulo:'Artículo',historia:'Historia',ejercicio:'Ejercicio'};
+  const tagClasses={video:'tag-video',articulo:'tag-articulo',historia:'tag-historia',ejercicio:'tag-ejercicio'};
+  const groups={video:[],articulo:[],historia:[],ejercicio:[]};
+  contentItems.forEach(item=>{ if(groups[item.type]) groups[item.type].push(item); });
+
+  let html='';
+  Object.entries(groups).forEach(([type,items])=>{
+    if(!items.length)return;
+    html+=`<div class="content-section">
+      <div class="content-section-title">${items[0].emoji} ${tagLabels[type]}s</div>
+      <div class="content-grid">${items.map(item=>`
+        <div class="content-card" onclick="window.open('${item.url}','_blank')">
+          <div class="content-thumb">${item.emoji}</div>
+          <div class="content-body">
+            <span class="content-tag ${tagClasses[type]}">${tagLabels[type]}</span>
+            <div class="content-title">${item.title}</div>
+            <div class="content-desc">${item.desc||''}</div>
+            <a class="content-link" href="${item.url}" target="_blank" onclick="event.stopPropagation()">Abrir ↗</a>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  });
+  document.getElementById('contentGrid').innerHTML=html||'<p style="color:var(--muted)">Agrega el primer material arriba.</p>';
+}
+
+// ── NAV ───────────────────────────────────────────────────────
+window.showPanel = function(id) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('visible'));
+  document.querySelectorAll('.sb-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('visible');
+  event.currentTarget.classList.add('active');
+  if(id==='contenido') renderContent();
+  if(id==='asistencia') loadAttHistory();
+};
+
+// ── AUTH ──────────────────────────────────────────────────────
+window.doLogin = async function() {
+  const email=document.getElementById('lEmail').value.trim();
+  const pass=document.getElementById('lPass').value;
+  const err=document.getElementById('lErr');
+  err.style.display='none';
+  try { await signInWithEmailAndPassword(auth,email,pass); }
+  catch(e) { err.style.display='block'; }
+};
+
+window.doLogout = async function() { await signOut(auth); };
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&document.getElementById('loginScreen').style.display!=='none') window.doLogin();
+});
+
+onAuthStateChanged(auth, async user => {
+  document.getElementById('loadingScreen').classList.add('hidden');
+  if(user){
+    currentUser=user;
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('appShell').style.display='block';
+    document.getElementById('monitorEmail').textContent=user.email;
+    await loadParticipants();
+    await loadContent();
+    await loadAttHistory();
+  } else {
+    document.getElementById('loginScreen').style.display='flex';
+    document.getElementById('appShell').style.display='none';
+  }
+});
+</script>
+</body>
+</html>
